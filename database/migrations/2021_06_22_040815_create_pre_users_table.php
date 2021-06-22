@@ -15,6 +15,10 @@ class CreatePreUsersTable extends Migration
     {
         Schema::create('pre_users', function (Blueprint $table) {
             $table->id();
+            $table->string('student_number', 7)->comment('学籍番号');
+            $table->string('token', 250)->comment("確認トークン");
+            $table->tinyInteger('status')->comment('ステータス');
+            $table->dateTime('expiration_datetime')->comment('有効期限');
             $table->timestamps();
         });
     }

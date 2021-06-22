@@ -15,7 +15,25 @@ class CreateJoinsTable extends Migration
     {
         Schema::create('joins', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('user_id')->comment('ユーザID');
+            $table->unsignedBigInteger('channel_id')->comment('チャンネルID');
+
+            $table->unique([
+                'user_id',
+                'channel_id'
+            ]);
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('channel_id')
+                ->references('id')
+                ->on('channels')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
