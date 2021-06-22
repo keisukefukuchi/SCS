@@ -2,10 +2,73 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Designer : 畑
+ * Date     : 2021/06/14
+ * Purpose  : C?-1 チャンネル情報管理
+ */
 
 class Channel extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'channel_name',
+    ];
+
+    /**
+     * Function Name : store
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : チャンネルデータを登録する
+     * Return        : Channel
+     */
+    public static function store($channel_name)
+    {
+        $channel = new self([
+            'channel_name'      => $channel_name
+        ]);
+        $channel->save();
+        return $channel;
+    }
+
+    /**
+     * Function Name : getJoinedChannels
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : 参加済のチャンネルデータを取得する
+     * Return        : Collection
+     */
+    public static function getJoinedChannels(Array $channel_ids)
+    {
+        $joined_channels = self::whereIn('id', $channel_ids)->orderBy('created_at')->get();
+        return $joined_channels;
+    }
+
+    /**
+     * Function Name : getNotJoinedChannels
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : 未参加のチャンネルデータを取得する
+     * Return        : Collection
+     */
+    public static function getNotJoinedChannels(Array $channel_ids)
+    {
+        $not_joined_channels = self::whereNotIn('id', $channel_ids)->orderBy('created_at')->get();
+        return $not_joined_channels;
+    }
+
+    /**
+     * Function Name : getChannels
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : main以外のすべてのチャンネルデータを取得する
+     * Return        : Collection
+     */
+    public static function getChannels()
+    {
+        $channels = self::where('id' , '!=', 1)->get();
+        return $channels;
+    }
+
 }

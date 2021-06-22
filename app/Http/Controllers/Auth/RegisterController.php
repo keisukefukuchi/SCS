@@ -3,71 +3,135 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PreRegister;
+use App\Models\PreUser;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Join;
+use Illuminate\Support\Carbon;
+
+/**
+ * Designer : 畑
+ * Date     : 2021/06/14
+ * Purpose  : C?-1 登録処理
+ */
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest');
     }
 
     /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * Function Name : studentNumberVerification
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : 仮登録処理を行う
+     * Return        : 仮登録完了メニュー
      */
-    protected function validator(array $data)
+    public function studentNumberVerification(Request $request)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        $validator = Validator::make($request->all(), [
+            'student_number' => 'required|string|unique:users,student_number|regex:/[a-z][a-z][0-9][0-9][0-9][0-9][0-9]/'
+        ], [
+            'student_number.required' => '学籍番号を入力してください',
+            'student_number.regex' => '学籍番号では文字列を用いてください',
+            'student_number.unique' => 'この学籍番号は既に登録されています',
+            'student_number.regex' => '正しい学籍番号を入力してください',
         ]);
+        if ($validator->fails()) {
+            return view('auth.register')->with([
+                'email' => $request->email,
+            ])->withErrors($validator);
+        } else {
+            $pre_user = PreUser::store($request->student_number);
+            $email = new PreRegister($pre_user);
+            Mail::to($request->student_number.'@shibaura-it.ac.jp')->send($email);
+
+            return view('auth.pre_registered');
+        }
     }
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
+     * Function Name : studentNumberVerifyComplete
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : 本登録画面を表示する
+     * Return        : 本登録画面
      */
-    protected function create(array $data)
+    public function studentNumberVerifyComplete($token)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        $student_number_verification = PreUser::findByToken($token);
+
+        if (empty($student_number_verification)
+            || $student_number_verification->isRegister()
+            || $student_number_verification->expiration_datetime < Carbon::now()){
+            return view('error.register'); // エラーメッセージ
+        }
+
+        $student_number_verification->studentNumberVerify();
+
+        return view('auth.main_register')->with([
+            'token' => $student_number_verification->token
         ]);
+
+    }
+
+    /**
+     * Function Name : create
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : 本登録を行う
+     * Return        : メイン画面
+     */
+    protected function create(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:20',
+            'password' => 'required|string|min:8|max:16|confirmed',
+        ], [
+            'name.required' => '名前を入力してください',
+            'name.string' => '名前には文字列を用いてください',
+            'name.max' => '名前は20文字以下で入力してください',
+            'password.required' => 'パスワードをを入力してください',
+            'password.string' => 'パスワードには文字列を用いてください',
+            'password.min' => 'パスワードはは8文字以上16文字以下で入力してください',
+            'password.max' => 'パスワードはは8文字以上16文字以下で入力してください',
+            'password.confirmed' => 'パスワードをもう一度確認してください'
+        ]);
+        if ($validator->fails()) {
+            return view('auth.main_register')
+                ->with([
+                    'token' => $request->token,
+                    'name' => $request->name,
+                ])
+                ->withErrors($validator);
+        } else {
+            $student_number_verification = PreUser::findByToken($request->token);
+            $user = User::store(
+                $request->name,
+                $student_number_verification->student_number,
+                Hash::make($request->password),
+            );
+            $student_number_verification->register();
+
+            Auth::login($user);
+
+            Join::join($user->id, 1);
+
+            return redirect()->route('messages.index');
+        }
     }
 }

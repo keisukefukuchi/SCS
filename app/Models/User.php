@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
+/**
+ * Designer : 畑
+ * Date     : 2021/06/14
+ * Purpose  : C?-1 利用者情報管理
+ */
 
 class User extends Authenticatable
 {
@@ -18,26 +23,55 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'student_number',
         'password',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
+     * Function Name : getAllUsers
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : 自分以外の利用者の取得
+     * Return        : Collection
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public static function getAllUsers(Int $user_id)
+    {
+        $all_users = self::where('id', '<>', $user_id)->get();
+        return $all_users;
+    }
+
+    // 未使用
+    /**
+     * Function Name : updateProfile
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : 利用者データを更新する
+     * Return        :
+     */
+    // public function updateProfile(Array $params)
+    // {
+    //     $this->where('id', $this->id)
+    //             ->update([
+    //                 'name' => $params['name'],
+    //             ]);
+    //     return;
+    // }
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
+     * Function Name : store
+     * Designer      : 畑
+     * Date          : 2021/06/14
+     * Function      : 利用者データを登録する
+     * Return        : Userオブジェクト
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public static function store($name, $student_number, $password)
+    {
+        $user = new self([
+            'name'            => $name,
+            'student_number'  => $student_number,
+            'password'        => $password
+        ]);
+        $user->save();
+        return $user;
+    }
 }

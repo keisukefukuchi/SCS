@@ -16,9 +16,12 @@ class PreRegister extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+    protected $user;
+
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -28,6 +31,9 @@ class PreRegister extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this
+            ->subject('【site】仮登録が完了しました')
+            ->view('auth.email.pre_register')
+            ->with(['token' => $this->user->token,]);
     }
 }
