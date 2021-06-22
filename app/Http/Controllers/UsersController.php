@@ -27,10 +27,11 @@ class UsersController extends Controller
     public function index()
     {
         $all_users = User::getAllUsers(auth()->user()->id);
-
         return view('users.index', [
             'all_users' => $all_users
         ]);
+
+
     }
 
     /**

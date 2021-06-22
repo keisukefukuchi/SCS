@@ -14,50 +14,34 @@
             <div class="card">
                 <div class="card-haeder p-3 w-100 d-flex">
                     <div class="ml-2 d-flex flex-column">
-                        <p class="mb-0 name">{{ $tweet->user->name }}</p>
+                        <p class="mb-0 name">{{ $message->user->name }}</p>
                     </div>
                     <div class="d-flex justify-content-end flex-grow-1">
-                        <p class="mb-0 text-secondary">{{ $tweet->created_at->format('Y-m-d H:i') }}</p>
+                        <p class="mb-0 text-secondary">{{ $message->created_at->format('Y-m-d H:i') }}</p>
                     </div>
                 </div>
                 <div class="card-body">
-                    {!! nl2br(e($tweet->text)) !!}
+                    {!! nl2br(e($message->message)) !!}
                 </div>
                 <div class="card-footer py-1 d-flex justify-content-end bg-white">
-                    @if ($tweet->user->id === Auth::user()->id)
+                    @if ($message->user->id === Auth::user()->id)
                         <div class="dropdown mr-3 d-flex align-items-center">
                             <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v fa-fw"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <form method="POST" action="{{ url('tweets/' .$tweet->id) }}" class="mb-0">
+                                <form method="POST" action="{{ url('tweets/' .$message->id) }}" class="mb-0">
                                     @csrf
                                     @method('DELETE')
-                                    <a href="{{ url('tweets/' .$tweet->id .'/edit') }}" class="dropdown-item">編集</a>
+                                    <a href="{{ url('tweets/' .$message->id .'/edit') }}" class="dropdown-item">編集</a>
                                     <button type="submit" class="dropdown-item del-btn">削除</button>
                                 </form>
                             </div>
                         </div>
                     @endif
                     <div class="mr-3 d-flex align-items-center">
-                        <a href="{{ url('tweets/' .$tweet->id) }}"><i class="far fa-comment fa-fw"></i></a>
-                        <p class="mb-0 text-secondary">{{ count($tweet->comments) }}</p>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        @if (!in_array($user->id, array_column($tweet->favorites->toArray(), 'user_id'), TRUE))
-                            <form method="POST" action="{{ url('favorites/') }}" class="mb-0">
-                                @csrf
-                                <input type="hidden" name="tweet_id" value="{{ $tweet->id }}">
-                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
-                            </form>
-                        @else
-                            <form method="POST" action="{{ url('favorites/' .array_column($tweet->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn p-0 border-0 text-danger"><i class="fas fa-heart fa-fw"></i></button>
-                            </form>
-                        @endif
-                        <p class="mb-0 text-secondary">{{ count($tweet->favorites) }}</p>
+                        <a href="{{ url('messages/' .$message->id) }}"><i class="far fa-comment fa-fw"></i></a>
+                        <p class="mb-0 text-secondary">{{ $message->getReplyCount($message->user->id, $message->id) }}</p>
                     </div>
                 </div>
             </div>
@@ -66,9 +50,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8 mb-3">
             <ul class="list-group">
-                @forelse ($comments as $comment)
-                    <li class="list-group-item">
-                        <div class="py-3 w-100 d-flex">
+                @forelse ($reply as $comment)
+                        <div class="card">
+                        <div class="card-haeder p-3 w-100 d-flex">
                             <div class="ml-2 d-flex flex-column">
                                 <p class="mb-0 name">{{ $comment->user->name }}</p>
                             </div>
@@ -76,10 +60,31 @@
                                 <p class="mb-0 text-secondary">{{ $comment->created_at->format('Y-m-d H:i') }}</p>
                             </div>
                         </div>
-                        <div class="py-3">
-                            {!! nl2br(e($comment->text)) !!}
+                        <div class="card-body">
+                            {!! nl2br(($comment->message)) !!}
                         </div>
-                    </li>
+                        <div class="card-footer py-1 d-flex justify-content-end bg-white">
+                            @if ($comment->user->id === Auth::user()->id)
+                                <div class="dropdown mr-3 d-flex align-items-center">
+                                    <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-fw"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <form method="POST" action="{{ url('tweets/' .$comment->id) }}" class="mb-0">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a href="{{ url('tweets/' .$comment->id .'/edit') }}" class="dropdown-item">編集</a>
+                                            <button type="submit" class="dropdown-item del-btn">削除</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="mr-3 d-flex align-items-center">
+                                <a href="{{ url('messages/' .$comment->id) }}"><i class="far fa-comment fa-fw"></i></a>
+                                <p class="mb-0 text-secondary">{{ $comment->getReplyCount($comment->user->id, $comment->id) }}</p>
+                            </div>
+                        </div>
+                        </div>
                 @empty
                     <li class="list-group-item">
                         <p class="mb-0 text-secondary">コメントはまだありません。</p>
@@ -87,7 +92,7 @@
                 @endforelse
                 <li class="list-group-item">
                     <div class="py-3">
-                        <form method="POST" action="{{ route('comments.store') }}">
+                        <form method="POST" action="{{ url('reply/store') }}">
                             @csrf
                             <div class="form-group row mb-0">
                                 <div class="col-md-12 p-3 w-100 d-flex">
@@ -96,9 +101,10 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="hidden" name="tweet_id" value="{{ $tweet->id }}">
-                                    <textarea class="form-control @error('text') is-invalid @enderror" name="text" required autocomplete="text" rows="4">{{ old('text') }}</textarea>
-                                    @error('text')
+                                    <input type="hidden" name="channel_id" value="{{ $message->channel_id }}">
+                                    <input type="hidden" name="reply_id" value="{{ $message->id }}">
+                                    <textarea class="form-control @error('message') is-invalid @enderror" name="message" required autocomplete="message" rows="4">{{ old('message') }}</textarea>
+                                    @error('message')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -109,7 +115,7 @@
                                 <div class="col-md-12 text-right">
                                     <p class="mb-4 text-danger">140文字以内</p>
                                     <button type="submit" class="btn btn-primary">
-                                        ツイートする
+                                        投稿する
                                     </button>
                                 </div>
                             </div>

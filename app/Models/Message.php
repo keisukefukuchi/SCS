@@ -49,19 +49,17 @@ class Message extends Model
     {
         return $this->where('user_id', $user_id)->where('reply_id', $message_id)->count();
     }
-    
+
     //指定ユーザIDとメッセージID(id)に合致する返信テーブルを取得する
-    public function getReply(Int $user_id, Int $message_id)
+    public function getReply(Int $message_id)
     {
-        return $this->where('user_id', $user_id)->where('reply_id', $message_id);
+        return $this->where('reply_id', $message_id)->get();
     }
 
      // 一覧画面
-    public function getTimeLines(Int $user_id, Array $follow_ids, Int $channel_id)
+    public function getTimeLines(Int $channel_id)
     {
-        // 自身とフォローしているユーザIDを結合する
-        $follow_ids[] = $user_id;
-        return $this->whereIn('user_id', $follow_ids)->where('channel_id', $channel_id)->orderBy('created_at', 'DESC')->paginate(50);
+        return $this->where('channel_id', $channel_id)->where('reply_id', 0)->orderBy('created_at', 'DESC')->paginate(50);
     }
 
      // 詳細画面
@@ -74,8 +72,7 @@ class Message extends Model
     {
         $this->user_id = $user_id;
         $this->message = $data['message'];
-        //$this->reply_id = $data['reply_id'];
-        $this->reply_id = 1;
+        $this->reply_id = $data['reply_id'];
         $this->channel_id = $data['channel_id'];
         $this->save();
 
@@ -101,8 +98,8 @@ class Message extends Model
         return $this->where('user_id', $user_id)->where('id', $message_id)->delete();
     }
 
-    public function messageSearch(string $keyword)
+    public static function messagesSearch(string $keyword)
     {
-        return $this->where('message', 'like', '%'.$keyword.'%')->orderBy('created_at', 'DESC')->paginate(50);
+        return self::where('message', 'like', '%'.$keyword.'%')->orderBy('created_at', 'DESC')->paginate(50);
     }
 }

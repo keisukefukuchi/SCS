@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Message;
-use App\Models\Follower;
 use App\Models\Channel;
 use App\Models\Join;
 
@@ -16,25 +15,22 @@ class MessagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Message $message, Follower $follower, Channel $channel, Join $join)
+    public function index(Request $request, Message $message)
     {
         $user = auth()->user();
-        $follow_ids = $follower->followingIds($user->id);
-        // followed_idだけ抜き出す
-        $following_ids = $follow_ids->pluck('followed_id')->toArray();
 
         $channel_id = $request->input('channel_id');
         if (empty($channel_id)){
             $channel_id = 1;
         }
 
-        $timelines = $message->getTimelines($user->id, $following_ids, $channel_id);
+        $timelines = $message->getTimelines($channel_id);
 
-        $join_channels = $join->joinChannels($user->id);
-        $join = $join_channels->pluck('channel_id')->toArray();
+        $join_channels = Join::joinChannelIds($user->id);
 
-        $channels = $channel->getChannels($join);
-        $channel_name = $channel->getChannelName($channel_id);
+        $channels = Channel::getJoinedChannels($join_channels);
+        $channel = Channel::where('id', $channel_id)->first();
+        $channel_name = $channel->channel_name;
 
         return view('messages.index', [
             'user'      => $user,
@@ -51,20 +47,22 @@ class MessagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, Channel $channel, Message $message)
+    public function create(Request $request, Message $message)
     {
         $user = auth()->user();
         $reply_id = $request->input('reply_id');
         $channel_id = $request->input('channel_id');
         //$channel_id = 1;
 
-        $channel_name = $channel->getChannelName($channel_id);
+        $channel = Channel::where('id', $channel_id)->first();
+        $channel_name = $channel->channel_name;
 
         return view('messages.create', [
             'user' => $user,
             'reply_id' => $reply_id,
             'channel_name' => $channel_name,
             'channel_id' => $channel_id,
+            'param' => 0
         ]);
     }
 
@@ -83,6 +81,7 @@ class MessagesController extends Controller
         ]);
 
         $validator->validate();
+
         $message->messageStore($user->id, $data);
 
         return redirect('messages');
@@ -98,7 +97,9 @@ class MessagesController extends Controller
     {
         $user = auth()->user();
         $message = $message->getMessage($message->id);
-        $reply = $message->getMessage($message->reply_id);
+
+        // $reply = $message->getMessage($message->reply_id);
+        $reply = $message->getReply($message->id);
 
         return view('messages.show', [
             'user' => $user,
@@ -122,9 +123,12 @@ class MessagesController extends Controller
             return redirect('messages');
         }
 
-        return view('messages.edit', [
+        return view('messages.create', [
             'user'   => $user,
-            'messages' => $messages
+            'messages' => $messages,
+            'channel_name' => null,
+            'channel_id' => null,
+            'param' => 1,
         ]);
     }
 
@@ -161,4 +165,22 @@ class MessagesController extends Controller
 
         return redirect('messages');
     }
+
+    public function replyStore(Request $request)
+    {
+        $user = auth()->user();
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'message' => ['required', 'string', 'max:140']
+        ]);
+
+        $validator->validate();
+
+
+        $message = new Message();
+        $message->messageStore($user->id, $data);
+
+        return redirect('messages');
+    }
+
 }

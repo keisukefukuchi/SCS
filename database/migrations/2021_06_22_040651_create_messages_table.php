@@ -14,10 +14,10 @@ class CreateMessagesTable extends Migration
     public function up()
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('channel_id')->comment('チャンネルID');
-            $table->unsignedInteger('user_id')->comment('利用者ID');
-            $table->unsignedInteger('reply_id')->comment('返信先ID');
+            $table->id();
+            $table->unsignedBigInteger('channel_id')->comment('チャンネルID');
+            $table->unsignedBigInteger('user_id')->comment('利用者ID');
+            $table->unsignedBigInteger('reply_id')->comment('返信先ID');
             $table->string('message')->comment('メッセージ内容');
             $table->softDeletes();
             $table->timestamps();

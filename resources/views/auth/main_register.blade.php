@@ -8,12 +8,12 @@
     </head>
     <body>
         <p class="login_logo">Shibaura Chat System</p>
-        <form method="POST" action="#" class="form">
+        <form method="POST" action="{{ route('main_register') }}" class="form">
             @csrf
             <p class="lead-text">本登録　必要事項を記入してください</p>
             <div class="register_form_wrap">
                 <label for="name" class="form_label">名前</label>
-                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }} form_input" name="student_number" value="{{ old('name') }}" required placeholder="your name">
+                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }} form_input" name="name" value="{{ old('name') }}" placeholder="your name">
                 @if ($errors->has('name'))
                     <span class="invalid-feedback">
                     <strong>{{ $errors->first('name') }}</strong>
@@ -22,13 +22,13 @@
             </div>
             <div class="register_form_wrap">
                 <label for="password" class="form_label">パスワード(8文字以上16文字以下)</label>
-                <input id="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }} form_input" name="password" required placeholder="password">
+                <input id="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }} form_input" name="password" placeholder="password">
             </div>
             <div class="register_form_wrap">
                 <label for="password-confirm" class="form_label">パスワード(確認用)</label>
-                <input id="password-confirm" type="password" class="form-control form_input" name="password_confirmation" required placeholder="password(again)">
+                <input id="password-confirm" type="password" class="form-control form_input" name="password_confirmation" placeholder="password(again)">
             </div>
-            <input type="hidden" name="email_token" value="#">
+            <input type="hidden" name="token" value="{{ $token }}">
             <button type="submit" class="button">Sign up</button>
         </form>
     </body>

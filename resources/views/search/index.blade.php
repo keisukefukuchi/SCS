@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-md-12 position">
-            @foreach ($tweets_data as $tweet)
+            @foreach ($messages_data as $tweet)
                 <div class="card mt-4">
                     <div class="card-haeder p-3 w-100 d-flex">
                         <div class="ml-2 d-flex flex-column">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        {!! nl2br(e($tweet->text)) !!}
+                        {!! nl2br(e($tweet->message)) !!}
                     </div>
                     <div class="card-footer py-1 d-flex justify-content-end bg-white">
                         @if ($tweet->user->id === Auth::user()->id)
@@ -60,7 +60,7 @@
                         @endif
                         <div class="mr-3 d-flex align-items-center">
                             <a href="{{ url('tweets/' . $tweet->id) }}"><i class="far fa-comment fa-fw"></i></a>
-                            <p class="mb-0 text-secondary">{{ count($tweet->comments) }}</p>
+                            <p class="mb-0 text-secondary">{{ $tweet->getReplyCount($tweet->user->id, $tweet->id) }}</p>
                         </div>
                     </div>
                  </div>
