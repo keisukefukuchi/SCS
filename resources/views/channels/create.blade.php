@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="header">
-            <a href = "/tweets">
+            <a href = "{{ route('messages.index')}}">
                 <div class="header-logo">
                     〈 back</div>
                 <div class="header-list">
@@ -38,7 +38,7 @@
             </div>
         </form>
 
-        <a href = "/test">
+        <a href = "{{ route('channels.index') }}">
             <div class="button2">
                 <input type="submit" value="チャンネル一覧　＞">
             </div>

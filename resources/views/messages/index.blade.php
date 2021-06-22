@@ -25,7 +25,7 @@
             <ul class="list-group list-group-flush">
                 <p class="color list-group-item">参加チャンネル</p>
                 @foreach ($channels as $channel)
-                    <form method="POST" action="{{ url('tweets/') }}" class="list-group-item list-group-item-action">
+                    <form method="POST" action="{{ url('messages/') }}" class="list-group-item list-group-item-action">
                         @csrf
                         @method('GET')
                         <button  type="submit" name="channel_id" value="{{ $channel->id }}" class="btn p-0 border-0">{{ $channel->channel_name . 'チャンネル' }}</button>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            {!! nl2br(e($timeline->text)) !!}
+                            {!! nl2br(e($timeline->message)) !!}
                         </div>
                         <div class="card-footer py-1 d-flex justify-content-end bg-white">
                             @if ($timeline->user->id === Auth::user()->id)
@@ -60,18 +60,18 @@
                                         <i class="fas fa-ellipsis-v fa-fw"></i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <form method="POST" action="{{ url('tweets/' . $timeline->id) }}" class="mb-0">
+                                        <form method="POST" action="{{ url('messages/' . $timeline->id) }}" class="mb-0">
                                             @csrf
                                             @method('DELETE')
-                                            <a href="{{ url('tweets/' . $timeline->id . '/edit') }}" class="dropdown-item">編集</a>
+                                            <a href="{{ url('messages/' . $timeline->id . '/edit') }}" class="dropdown-item">編集</a>
                                             <button type="submit" class="dropdown-item del-btn">削除</button>
                                         </form>
                                     </div>
                                 </div>
                             @endif
                             <div class="mr-3 d-flex align-items-center">
-                                <a href="{{ url('tweets/' . $timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
-                                <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
+                                <a href="{{ url('messages/' . $timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
+                                <p class="mb-0 text-secondary">{{ $timeline->getReplyCount($timeline->user->id, $timeline->id) }}</p>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
     </div>
     <div class="wrapper styl">
         <div class="a">
-            <form method="POST" action="{{ url('tweets/create') }}" class="list-group-item list-group-item-action">
+            <form method="POST" action="{{ url('messages/create') }}" class="list-group-item list-group-item-action">
                 @csrf
                 @method('GET')
                 <input type="hidden" name="channel_id" value="{{ $channel_id }}">

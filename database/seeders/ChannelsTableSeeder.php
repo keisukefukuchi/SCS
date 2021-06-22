@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Channel;
 
 class ChannelsTableSeeder extends Seeder
 {
@@ -13,6 +14,10 @@ class ChannelsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Channel::create([
+            'channel_name' => 'main',
+            'created_at'     => now(),
+            'updated_at'     => now()
+        ]);
     }
 }

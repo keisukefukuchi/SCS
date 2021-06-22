@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="header">
-            <a href = "/tweets">
+            <a href = {{ route('messages.index') }}>
                 <div class="header-logo">
                     〈 back</div>
                 <div class="header-list">
@@ -18,44 +18,42 @@
                 </ul>
             </div>
         </div>
-        <!--test用-->
-        <span class="hidden">{{ $param = 1}}</span>
-        <!--test用-->
 
         @if($param == 0)
             <div class="post">
                 投稿
             </div>
             <div class="border"></div>
-                <form method="POST" action="{{ route('tweets.store') }}">
-                    @csrf
-                    <input type="hidden" name="channel_id" value="{{ $channel_id }}">
-                    <textarea class="textarea @error('text') is-invalid @enderror"  name="text"  rows="8"></textarea>
+            <form method="POST" action="{{ route('messages.store') }}">
+                @csrf
+                <input type="hidden" name="reply_id" value="{{ 0 }}">
+                <input type="hidden" name="channel_id" value="{{ $channel_id }}">
+                <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8"></textarea>
 
-                    @error('text')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                    <br>
-                    <div class="button">
-                        <input type="submit" value="Post">
-                    </div>
-                </form>
+                @error('message')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+                <br>
+                <div class="button">
+                    <input type="submit" value="Post">
+                </div>
+            </form>
 
-            @elseif ($param == 1)
+        @elseif ($param == 1)
                 <div class="post">
                     編集
                 </div>
                 <div class="border"></div>
 
-                <form method="POST" action="{{ route('tweets.update', ['tweet' => 1]) }}">
+                <form method="POST" action="{{ route('messages.update', ['message' => 1]) }}">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="channel_id" value="{{ $channel_id }}">
-                    <textarea class="textarea @error('text') is-invalid @enderror"  name="text"  rows="8">{{ old('text') ? : "oldtext" }}</textarea>
+                    <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8">{{ old('message') ? : "$messages->message" }}</textarea>
 
-                    @error('text')
+                    @error('message')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -76,9 +74,9 @@
 
                     <input type="hidden" name="channel_id" value=1>
                     <input type="hidden" name="reply_id" value=1>
-                    <textarea class="textarea @error('text') is-invalid @enderror" name="text"  rows="8">{{ old('text') }}</textarea>
+                    <textarea class="textarea @error('message') is-invalid @enderror" name="text"  rows="8">{{ old('message') }}</textarea>
 
-                    @error('text')
+                    @error('message')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
