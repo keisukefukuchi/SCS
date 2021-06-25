@@ -43,23 +43,26 @@
                         {!! nl2br(e($tweet->message)) !!}
                     </div>
                     <div class="card-footer py-1 d-flex justify-content-end bg-white">
+                        <div class="ml-2 d-flex flex-column flex-grow-1">
+                            <p class="mb-0">{{ "#".$tweet->channel->channel_name }}</p>
+                        </div>
                         @if ($tweet->user->id === Auth::user()->id)
                             <div class="dropdown mr-3 d-flex align-items-center">
                                 <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v fa-fw"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <form method="POST" action="{{ url('tweets/' . $tweet->id) }}" class="mb-0">
+                                    <form method="POST" action="{{ url('messages/' . $tweet->id) }}" class="mb-0">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{ url('tweets/' . $tweet->id . '/edit') }}" class="dropdown-item">編集</a>
+                                        <a href="{{ url('messages/' . $tweet->id . '/edit') }}" class="dropdown-item">編集</a>
                                         <button type="submit" class="dropdown-item del-btn">削除</button>
                                     </form>
                                 </div>
                             </div>
                         @endif
                         <div class="mr-3 d-flex align-items-center">
-                            <a href="{{ url('tweets/' . $tweet->id) }}"><i class="far fa-comment fa-fw"></i></a>
+                            <a href="{{ url('messages/' . $tweet->id) }}"><i class="far fa-comment fa-fw"></i></a>
                             <p class="mb-0 text-secondary">{{ $tweet->getReplyCount($tweet->user->id, $tweet->id) }}</p>
                         </div>
                     </div>

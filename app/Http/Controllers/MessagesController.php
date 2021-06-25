@@ -166,6 +166,21 @@ class MessagesController extends Controller
         return redirect('messages');
     }
 
+    public function replyShow(Request $request)
+    {
+        $user = auth()->user();
+        $channel_id = $request->channel_id;
+        $channel_name = Channel::find($channel_id);
+        $reply_id = $request->reply_id;
+        return view('messages.create', [
+            'user' => $user,
+            'channel_name' => $channel_name->channel_name,
+            'channel_id' => $channel_id,
+            'reply_id' => $reply_id,
+            'param' => 2
+        ]);
+    }
+
     public function replyStore(Request $request)
     {
         $user = auth()->user();

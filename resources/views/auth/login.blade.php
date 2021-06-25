@@ -10,11 +10,6 @@
 </head>
 <body>
     <a class="login_logo fade-in" href="{{ route('login') }}">Shibaura Chat System</a>
-    {{-- ログインできないエラーの発生
-    【解決】以下を変更
-    <form action="POST" action="{{ route('login') }}" class="form">
-    =>
-    <form method="POST" action="{{ route('login') }}" class="form"> --}}
     <form method="POST" action="{{ route('login') }}" class="form">
         @csrf
         <div class="form_wrap">

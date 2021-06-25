@@ -28,7 +28,7 @@
                     <form method="POST" action="{{ url('messages/') }}" class="list-group-item list-group-item-action">
                         @csrf
                         @method('GET')
-                        <button  type="submit" name="channel_id" value="{{ $channel->id }}" class="btn p-0 border-0">{{ $channel->channel_name . 'チャンネル' }}</button>
+                        <button  type="submit" name="channel_id" value="{{ $channel->id }}" class="btn p-0 border-0">{{ $channel->channel_name . ' チャンネル' }}</button>
                     </form>
                 @endforeach
                 <a href="{{ url('channels/create') }}" class="list-group-item list-group-item-action"><i class="fas fa-plus" class="fa-fw"></i>　新規チャンネル作成</a>
@@ -38,7 +38,7 @@
         @if (isset($timelines))
             <div class="col-9-lr15 vertical-scroll-table">
                 <div class="list-group-item">
-                    {{ $channel_name . 'チャンネル' }}
+                    {{ $channel_name . ' チャンネル' }}
                 </div>
                 @foreach ($timelines as $timeline)
                     <div class="card">

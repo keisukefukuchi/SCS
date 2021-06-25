@@ -24,24 +24,24 @@ class Message extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function favorites()
+    public function channel()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->belongsTo(Channel::class);
     }
 
-    public function messages()
+    // public function messages()
+    // {
+    //     return $this->hasMany(message::class);
+    // }
+
+    public static function getUserTimeLine(Int $user_id, Array $join_channel_ids)
     {
-        return $this->hasMany(message::class);
+        return self::where('user_id', $user_id)->whereIn('channel_id', $join_channel_ids)->orderBy('created_at', 'DESC')->get();
     }
 
-    public function getUserTimeLine(Int $user_id)
+    public static function getMessageCount(Int $user_id)
     {
-        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(50);
-    }
-
-    public function getMessageCount(Int $user_id)
-    {
-        return $this->where('user_id', $user_id)->count();
+        return self::where('user_id', $user_id)->count();
     }
 
     //指定ユーザIDとメッセージID(id)に合致する返信件数を取得する
@@ -98,8 +98,8 @@ class Message extends Model
         return $this->where('user_id', $user_id)->where('id', $message_id)->delete();
     }
 
-    public static function messagesSearch(string $keyword)
+    public static function messagesSearch(string $keyword, Array $join_channel_ids)
     {
-        return self::where('message', 'like', '%'.$keyword.'%')->orderBy('created_at', 'DESC')->paginate(50);
+        return self::whereIn('channel_id', $join_channel_ids)->where('message', 'like', '%'.$keyword.'%')->orderBy('created_at', 'DESC')->paginate(50);
     }
 }
