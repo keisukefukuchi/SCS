@@ -27,10 +27,10 @@ class SearchController extends Controller
         $keyword = $request->keyword;
 
         if(!empty($keyword)){
-            $messages_data = Message::messagesSearch($keyword, $join_channels);
+            $timelines = Message::messagesSearch($keyword, $join_channels);
             return view('search.index', [
                 'user' => $user,
-                'messages_data' => $messages_data,
+                'timelines' => $timelines,
                 'keyword' => $keyword
             ]);
         }

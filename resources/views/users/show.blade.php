@@ -39,7 +39,6 @@
         <div class="profile">
             <div class="username">
                 <div class="name"><b>{{ $user->name }}</b></div>
-                <div class="ID">{{ $user->screen_name }}</div>
             </div>
             <div class="follow-list">
 

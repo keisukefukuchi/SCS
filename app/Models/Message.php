@@ -59,7 +59,7 @@ class Message extends Model
      // 一覧画面
     public function getTimeLines(Int $channel_id)
     {
-        return $this->where('channel_id', $channel_id)->where('reply_id', 0)->orderBy('created_at', 'DESC')->paginate(50);
+        return $this->where('channel_id', $channel_id)->where('reply_id', 0)->orderBy('created_at', 'DESC')->get();
     }
 
      // 詳細画面
@@ -100,6 +100,6 @@ class Message extends Model
 
     public static function messagesSearch(string $keyword, Array $join_channel_ids)
     {
-        return self::whereIn('channel_id', $join_channel_ids)->where('message', 'like', '%'.$keyword.'%')->orderBy('created_at', 'DESC')->paginate(50);
+        return self::whereIn('channel_id', $join_channel_ids)->where('message', 'like', '%'.$keyword.'%')->orderBy('created_at', 'DESC')->get();
     }
 }

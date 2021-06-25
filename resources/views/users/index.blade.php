@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <br>
-                @foreach ($all_users as $user)
+                @foreach ($users as $user)
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
                             <div class="ml-2 d-flex flex-column">

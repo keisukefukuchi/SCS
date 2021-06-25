@@ -104,7 +104,7 @@ class MessagesController extends Controller
         return view('messages.show', [
             'user' => $user,
             'message' => $message,
-            'reply' => $reply,
+            'replies' => $reply,
         ]);
     }
 

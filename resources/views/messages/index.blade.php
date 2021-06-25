@@ -19,7 +19,6 @@
     }
 </style>
 @section('content')
-    {{-- <div class="container"> --}}
     <div class="row-m0 left">
         <div class="channel_bar vertical-scroll-table" style="height: 800px">
             <ul class="list-group list-group-flush">
@@ -78,9 +77,6 @@
                 @endforeach
             </div>
         @endif
-    </div>
-    <div class="my-4 d-flex justify-content-center">
-        {{ $timelines->links() }}
     </div>
     <div class="wrapper styl">
         <div class="a">
