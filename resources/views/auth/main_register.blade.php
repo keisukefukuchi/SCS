@@ -23,11 +23,6 @@
             <div class="register_form_wrap">
                 <label for="password" class="form_label">パスワード(8文字以上16文字以下)</label>
                 <input id="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }} form_input" name="password" placeholder="password">
-                @if ($errors->has('password'))
-                    <span class="invalid-feedback">
-                    <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                @endif
             </div>
             <div class="register_form_wrap">
                 <label for="password-confirm" class="form_label">パスワード(確認用)</label>

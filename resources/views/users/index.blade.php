@@ -1,30 +1,19 @@
 {{-- ユーザ一覧画面 --}}
-
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-haeder p-3 w-100 d-flex">
-                        <div class="ml-2 d-flex flex-column">
-                            <p class="mb-0">{{ "ユーザ一覧" }}</p>
-                        </div>
+<section class="user-list">
+    <p class="section-title">ユーザ一覧</p>
+    @foreach ($all_users as $user)
+        <div class="user-list_card">
+            <a href="{{ url('users/' .$user->id) }}" class="user-list_card-wrapper">
+                <div class="user-list_profile">
+                    <div class="user-list_profile-text">
+                        <p class="user-name">{{ $user->name }}</p>
                     </div>
                 </div>
-                <br>
-                @foreach ($users as $user)
-                    <div class="card">
-                        <div class="card-haeder p-3 w-100 d-flex">
-                            <div class="ml-2 d-flex flex-column">
-                                <a href="{{ url('users/' .$user->id) }}" class="mb-0">{{ $user->name }}</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+            </a>
         </div>
-    </div>
+    @endforeach
+</section>
 @endsection
-

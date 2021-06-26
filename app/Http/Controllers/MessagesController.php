@@ -47,20 +47,22 @@ class MessagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($channel_id)
+    public function create(Request $request, Message $message)
     {
         $user = auth()->user();
+        $reply_id = $request->input('reply_id');
+        $channel_id = $request->input('channel_id');
+        //$channel_id = 1;
 
         $channel = Channel::where('id', $channel_id)->first();
         $channel_name = $channel->channel_name;
 
         return view('messages.create', [
-            'user'          => $user,
-            'reply_id'      => 0,
-            'messages'      => null,
-            'channel_name'  => $channel_name,
-            'channel_id'    => $channel_id,
-            'param'         => 0
+            'user' => $user,
+            'reply_id' => $reply_id,
+            'channel_name' => $channel_name,
+            'channel_id' => $channel_id,
+            'param' => 0
         ]);
     }
 
@@ -100,9 +102,9 @@ class MessagesController extends Controller
         $reply = $message->getReply($message->id);
 
         return view('messages.show', [
-            'user'    => $user,
+            'user' => $user,
             'message' => $message,
-            'replies' => $reply,
+            'reply' => $reply,
         ]);
     }
 
@@ -122,12 +124,11 @@ class MessagesController extends Controller
         }
 
         return view('messages.create', [
-            'user'          => $user,
-            'reply_id'      => null,
-            'messages'      => $messages,
-            'channel_name'  => $messages->channel->channel_name,
-            'channel_id'    => null,
-            'param'         => 1,
+            'user'   => $user,
+            'messages' => $messages,
+            'channel_name' => null,
+            'channel_id' => null,
+            'param' => 1,
         ]);
     }
 
@@ -163,21 +164,6 @@ class MessagesController extends Controller
         $message->messageDestroy($user->id, $message->id);
 
         return redirect('messages');
-    }
-
-    public function replyShow($message_id)
-    {
-        $user = auth()->user();
-        $message = Message::find($message_id);
-        $channel_id = $message->channel_id;
-        return view('messages.create', [
-            'user'          => $user,
-            'reply_id'      => $message_id,
-            'messages'      => $message,
-            'channel_name'  => $message->channel->channel_name,
-            'channel_id'    => $channel_id,
-            'param'         => 2
-        ]);
     }
 
     public function replyStore(Request $request)

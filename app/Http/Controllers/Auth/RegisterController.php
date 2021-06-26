@@ -45,6 +45,11 @@ class RegisterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'student_number' => 'required|string|unique:users,student_number|regex:/[a-z][a-z][0-9][0-9][0-9][0-9][0-9]/'
+        ], [
+            'student_number.required' => '学籍番号を入力してください',
+            'student_number.regex' => '学籍番号では文字列を用いてください',
+            'student_number.unique' => 'この学籍番号は既に登録されています',
+            'student_number.regex' => '正しい学籍番号を入力してください',
         ]);
         if ($validator->fails()) {
             return view('auth.register')->with([
@@ -96,6 +101,15 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:20',
             'password' => 'required|string|min:8|max:16|confirmed',
+        ], [
+            'name.required' => '名前を入力してください',
+            'name.string' => '名前には文字列を用いてください',
+            'name.max' => '名前は20文字以下で入力してください',
+            'password.required' => 'パスワードをを入力してください',
+            'password.string' => 'パスワードには文字列を用いてください',
+            'password.min' => 'パスワードはは8文字以上16文字以下で入力してください',
+            'password.max' => 'パスワードはは8文字以上16文字以下で入力してください',
+            'password.confirmed' => 'パスワードをもう一度確認してください'
         ]);
         if ($validator->fails()) {
             return view('auth.main_register')

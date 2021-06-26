@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Message;
-use App\Models\Join;
 
 /**
  * Designer : 畑
@@ -23,14 +22,13 @@ class SearchController extends Controller
      */
     public function index(Request $request){
         $user = auth()->user();
-        $join_channels = Join::joinChannelIds($user->id);
         $keyword = $request->keyword;
 
         if(!empty($keyword)){
-            $timelines = Message::messagesSearch($keyword, $join_channels);
+            $messages_data = Message::messagesSearch($keyword);
             return view('search.index', [
                 'user' => $user,
-                'timelines' => $timelines,
+                'messages_data' => $messages_data,
                 'keyword' => $keyword
             ]);
         }

@@ -59,11 +59,16 @@ class ChannelsController extends Controller
     {
         // バリデータ
         $validator = Validator::make($request->all(), [
-            'channel_name' => 'required|string|max:20|unique:channels,channel_name',
+            'text' => 'required|string|max:20|unique:channels,channel_name',
+        ], [
+            'text.required' => 'チャンネル名を入力してください',
+            'text.string' => 'チャンネル名には文字列を利用してください',
+            'text.max' => 'チャンネル名は20文字以下で作成してください',
+            'text.unique' => 'このチャンネルは既に作成されています'
         ]);
         $validator->validate();
 
-        Channel::store($request->channel_name);
+        Channel::store($request->text);
 
         $user = auth()->user();
 
