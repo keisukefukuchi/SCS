@@ -29,7 +29,7 @@
 
                 @error('text')
                     <span class="invalid-feedback" >
-                        <br><strong>{{ $message }}</strong>
+                        <br><strong class = "position">{{ $message }}</strong>
                     </span>
                 @enderror
 

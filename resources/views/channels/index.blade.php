@@ -30,7 +30,7 @@
                 <form action="{{ route('leave') }}" method="POST">
                 @csrf
                 <input type="hidden" name="channel_id" value="{{ $channel->id }}">
-                    <div class="joinButton">
+                    <div class="unjoinButton">
                         {{ '#'. $channel->channel_name }}
                         <input type="submit" value="退会する" >
                     </div>

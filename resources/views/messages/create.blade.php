@@ -32,7 +32,7 @@
 
                 @error('message')
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
+                        <strong class = "position">{{ $message }}</strong>
                     </span>
                 @enderror
                 <br>
@@ -55,7 +55,7 @@
 
                     @error('message')
                         <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                            <strong class = "position">{{ $message }}</strong>
                         </span>
                     @enderror
                     <br>
@@ -78,7 +78,7 @@
 
                     @error('message')
                         <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                            <strong class = "position">{{ $message }}</strong>
                         </span>
                     @enderror
                     <br>
