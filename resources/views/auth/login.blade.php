@@ -12,24 +12,26 @@
     <a class="login_logo fade-in" href="{{ route('login') }}">Shibaura Chat System</a>
     <form method="POST" action="{{ route('login') }}" class="form">
         @csrf
-        <div class="form_wrap">
+        <div class="register_form_wrap">
             <label for="student_number" class="form_label">学籍番号</label>
             <input id="student_number" type="student_number" class="form-control @error('student_number') is-invalid @enderror form_input" name="student_number" value="{{ old('student_number') }}" placeholder="zz00000" autocomplete="student_number" autofocus>
-        </div>
             @error('student_number')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('student_number') }}</strong>
+            </span>
             @enderror
-        <div class="form_wrap">
+        </div>
+
+        <div class="register_form_wrap">
             <label for="password" class="form_label">パスワード</label>
             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror form_input" name="password" placeholder="password" autocomplete="current-password">
-        </div>
             @error('password')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
+        @enderror
+        </div>
+
 
 
         <button type="submit" class="button">Login</button>

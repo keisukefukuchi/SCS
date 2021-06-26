@@ -80,10 +80,9 @@
     </div>
     <div class="wrapper styl">
         <div class="a">
-            <form method="POST" action="{{ url('messages/create') }}" class="list-group-item list-group-item-action">
+            <form method="POST" action="{{ url('messages/create/'.$channel_id) }}" class="list-group-item list-group-item-action">
                 @csrf
                 @method('GET')
-                <input type="hidden" name="channel_id" value="{{ $channel_id }}">
                 <button type="submit" class="btn p-0 border-0"><i class="fas fa-pen" class="fa-fw"></i>　投稿</button>
             </form>
         </div>

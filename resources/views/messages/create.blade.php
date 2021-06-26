@@ -30,7 +30,6 @@
                 <input type="hidden" name="reply_id" value="{{ 0 }}">
                 <input type="hidden" name="channel_id" value="{{ $channel_id }}">
                 <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8"></textarea>
-
                 @error('message')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

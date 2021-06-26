@@ -25,10 +25,9 @@
                 </div>
                 <div class="card-footer py-1 d-flex justify-content-end bg-white">
                     <div class="mr-3 d-flex align-items-center">
-                        <form method="POST" action="{{ url('reply/show') }}" class="mb-0">
+                        <form method="POST" action="{{ url('message/reply/'.$message->id) }}" class="mb-0">
                             @csrf
-                            <input type="hidden" name="channel_id" value="{{ $message->channel_id }}">
-                            <input type="hidden" name="reply_id" value="{{ $message->id }}">
+                            @method('GET')
                             <button type="submit" class="btn p-0 border-0">返信する</button>
                         </form>
                     </div>
