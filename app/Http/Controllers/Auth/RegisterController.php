@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 登録処理
+ * Purpose  : C2-2 登録処理
  */
 
 class RegisterController extends Controller

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 認証処理
+ * Purpose  : C2-1 認証処理
  */
 
 class LoginController extends Controller

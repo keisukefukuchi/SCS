@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 チャンネル参加者情報管理
+ * Purpose  : C8-2 チャンネル参加者情報管理
  */
 
 class Join extends Model
