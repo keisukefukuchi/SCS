@@ -32,7 +32,7 @@
                 <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8"></textarea>
                 @error('message')
                     <span class="invalid-feedback" role="alert">
-                        <strong class = "position">{{ $message }}</strong>
+                        <strong class = "position">{{ $errors->first('message') }}</strong>
                     </span>
                 @enderror
                 <br>
@@ -47,15 +47,15 @@
             </div>
             <div class="border"></div>
 
-            <form method="POST" action="{{ route('messages.update', ['message' => $messages->id]) }}">
+            <form method="POST" action="{{ route('messages.update', ['message' => $message->id]) }}">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="channel_id" value="{{ $channel_id }}">
-                <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8">{{ old('message') ? : "$messages->message" }}</textarea>
+                <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8">{{ old('message') ? : "$message->message" }}</textarea>
 
                 @error('message')
                     <span class="invalid-feedback" role="alert">
-                        <strong class = "position">{{ $message }}</strong>
+                        <strong class = "position">{{ $errors->first('message') }}</strong>
                     </span>
                 @enderror
                 <br>
@@ -78,7 +78,7 @@
 
                 @error('message')
                     <span class="invalid-feedback" role="alert">
-                        <strong class = "position">{{ $message }}</strong>
+                        <strong class = "position">{{ $errors->first('message') }}</strong>
                     </span>
                 @enderror
                 <br>

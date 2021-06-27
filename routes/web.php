@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'edit', 'update']]);
 
     // メッセージ関連
-    Route::get('message/reply/{message_id}', 'MessagesController@replyShow');
+    Route::get('message/reply/{message_id}', 'MessagesController@reply');
     Route::post('reply/store', 'MessagesController@replyStore');
 
     Route::get('messages/create/{channel_id}', 'MessagesController@create');

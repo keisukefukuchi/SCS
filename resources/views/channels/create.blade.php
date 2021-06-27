@@ -29,7 +29,7 @@
 
                 @error('channel_name')
                     <span class="invalid-feedback" >
-                        <br><strong class = "position">{{ $message }}</strong>
+                        <br><strong class = "position">{{ $errors->first('channel_name') }}</strong>
                     </span>
                 @enderror
 
