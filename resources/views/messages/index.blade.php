@@ -19,7 +19,6 @@
     }
 </style>
 @section('content')
-    {{-- <div class="container"> --}}
     <div class="row-m0 left">
         <div class="channel_bar vertical-scroll-table" style="height: 800px">
             <ul class="list-group list-group-flush">
@@ -28,7 +27,7 @@
                     <form method="POST" action="{{ url('messages/') }}" class="list-group-item list-group-item-action">
                         @csrf
                         @method('GET')
-                        <button  type="submit" name="channel_id" value="{{ $channel->id }}" class="btn p-0 border-0">{{ $channel->channel_name . 'チャンネル' }}</button>
+                        <button  type="submit" name="channel_id" value="{{ $channel->id }}" class="btn p-0 border-0">{{ $channel->channel_name . ' チャンネル' }}</button>
                     </form>
                 @endforeach
                 <a href="{{ url('channels/create') }}" class="list-group-item list-group-item-action"><i class="fas fa-plus" class="fa-fw"></i>　新規チャンネル作成</a>
@@ -38,7 +37,7 @@
         @if (isset($timelines))
             <div class="col-9-lr15 vertical-scroll-table">
                 <div class="list-group-item">
-                    {{ $channel_name . 'チャンネル' }}
+                    {{ $channel_name . ' チャンネル' }}
                 </div>
                 @foreach ($timelines as $timeline)
                     <div class="card">
@@ -79,15 +78,11 @@
             </div>
         @endif
     </div>
-    <div class="my-4 d-flex justify-content-center">
-        {{ $timelines->links() }}
-    </div>
     <div class="wrapper styl">
         <div class="a">
-            <form method="POST" action="{{ url('messages/create') }}" class="list-group-item list-group-item-action">
+            <form method="POST" action="{{ url('messages/create/'.$channel_id) }}" class="list-group-item list-group-item-action">
                 @csrf
                 @method('GET')
-                <input type="hidden" name="channel_id" value="{{ $channel_id }}">
                 <button type="submit" class="btn p-0 border-0"><i class="fas fa-pen" class="fa-fw"></i>　投稿</button>
             </form>
         </div>

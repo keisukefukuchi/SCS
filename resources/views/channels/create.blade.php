@@ -14,7 +14,7 @@
                 <div class="header-list">
             </a>
                 <ul>
-                    <li>   </li>
+                    <li></li>
                 </ul>
             </div>
         </div>
@@ -22,14 +22,14 @@
             チャンネルを作成する
         </div>
         <div class="border"></div>
-        <form action="{{ route('channels.store') }}"   method="POST">
+        <form action="{{ route('channels.store') }}" method="POST">
             @csrf
             <div class="channelName">チャンネル名(20文字以内)</div>
-                <input class="input @error('text') is-invalid @enderror"  name="text">
+                <input class="input @error('channel_name') is-invalid @enderror" name="channel_name">
 
-                @error('text')
+                @error('channel_name')
                     <span class="invalid-feedback" >
-                        <br><strong class = "position">{{ $message }}</strong>
+                        <br><strong>{{ $errors->first('channel_name') }}</strong>
                     </span>
                 @enderror
 

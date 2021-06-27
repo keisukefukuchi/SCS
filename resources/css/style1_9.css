@@ -33,89 +33,18 @@ padding:25px 0px;
 width:85%;
 }
 
-.title{
-    font-size:20px;
-    padding-left:20%;
-    padding-top:120px;
-}
-
-.border{
-    margin-left:auto;
-    margin-right:auto;
-   border-bottom:2px solid darkgrey;
-    width:60%;
-}
-
-.input{
-    font-family:"MSゴシック";
-    margin-left:20%;
-    padding:2px;
-    width:58%;
-}
-
 .button{
-    text-align:center;
+    text-align:left;
 }
 .button input{
-    padding:5px 50px;
-    margin-top:30px;
+    float:right;
+    padding:2px 30px;
     border-radius:100vh;
     color:white;
-    background-color:black ;
+    background-color:purple;
 }
+
 .button input:hover{
-    background-color:darkslateblue;
-}
-
-.button2{
-    text-align:center;
-}
-
-.button2 input{
-    padding:5px 50px;
-    margin-top:60px;
-    border:none;
-    color:black;
-    background-color:white;
-    box-shadow:0px 1px #343a40 ;
-}
-.button2 input:hover{
-    background-color:rgb(243, 240, 240);
-}
-
-.channelName{
-    font-size:15px;
-    padding-left:20%;
-    padding-top:20px;
-}
-
-.joinButton{
-    text-align:left;
-}
-.joinButton input{
-    float:right;
-    padding:2px 30px;
-    border-radius:100vh;
-    color:white;
-    background-color:rgb(61, 61, 207);
-}
-
-.unjoinButton input:hover{
-    background-color:darkslateblue;
-}
-
-.unjoinButton{
-    text-align:left;
-}
-.unjoinButton input{
-    float:right;
-    padding:2px 30px;
-    border-radius:100vh;
-    color:white;
-    background-color:rgb(248, 51, 44);
-}
-
-.joinButton input:hover{
     background-color:darkslateblue;
 }
 
@@ -123,9 +52,9 @@ width:85%;
     clear:both;
     margin-left:auto;
     margin-right:auto;
-    margin-top:20px;
     padding:10px;
     background-color: rgb(233, 204, 233);
     box-shadow:4px 4px thistle;
     width:500px;
 }
+
