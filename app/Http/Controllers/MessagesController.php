@@ -62,7 +62,7 @@ class MessagesController extends Controller
         return view('messages.create', [
             'user'          => $user,
             'reply_id'      => 0,
-            'messages'      => null,
+            'message'      => null,
             'channel_name'  => $channel_name,
             'channel_id'    => $channel_id,
             'param'         => 0
@@ -128,7 +128,7 @@ class MessagesController extends Controller
         return view('messages.create', [
             'user'          => $user,
             'reply_id'      => null,
-            'messages'      => $messages,
+            'message'      => $messages,
             'channel_name'  => $messages->channel->channel_name,
             'channel_id'    => null,
             'param'         => 1,
