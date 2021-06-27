@@ -12,7 +12,7 @@ use App\Models\Join;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 利用者処理
+ * Purpose  : C2-3 利用者処理
  */
 
 class UsersController extends Controller

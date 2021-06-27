@@ -9,7 +9,7 @@ use App\Models\Join;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 検索処理
+ * Purpose  : C4-1 検索処理
  */
 
 class SearchController extends Controller

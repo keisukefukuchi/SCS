@@ -10,7 +10,7 @@ use App\Models\Join;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 チャンネル処理
+ * Purpose  : C5-1 チャンネル処理
  */
 
 class ChannelsController extends Controller
