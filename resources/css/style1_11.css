@@ -7,6 +7,10 @@ body{
     background-color: #f8fafc;
 }
 
+.header-list ul{
+margin:0;
+}
+
 li{
 list-style:none;
 }
@@ -39,79 +43,33 @@ list-style:none;
     clear:both;
     margin:20px;
     border:2px solid lightslategray;
-    width:500px;
-    height:180px;
+    width:400px;
+    height:100px;
     margin-left: auto;
     margin-right: auto;
     margin-top:20px;
+    border-radius: 100vh;
+    background-color:white;
+    box-shadow:4px 6px rgb(204,204,204);
 }
 
 .username{
     float:left;
-    margin:10px;
-    margin-left:30px;
+    margin:30px;
+    margin-left:60px;
 
 }
 .name{
     font-size:25px ;
 }
 
-.ID{
-    color:dimgray;
-}
-
-.edit input{
-    background-color:lightskyblue;
-    border-radius: 100vh;
-    border:none;
-    padding:5px 20px;
-    margin:10px;
-    float:right;
-    font-weight: bold;
-    }
-
-.edit input:hover{
-    background-color:skyblue;
-}
 
 .follow-list .center{
-    float:left;
-    padding-left: 10px;
-    padding-right:60px;;
-    margin:30px 0px;
+    margin:20px 0px;
     text-align: center;
+    font-size:15px;
 }
 
 .follow-list{
     margin:10px;
 }
-
-.Release{
-background-color:#e3342f;
-padding:8px 10px;
-margin:10px 50px;
-color:white;
-border-radius:5px;
-border:none;
-}
-
-.follow{
-background-color:#3490dc;
-padding:8px 10px;
-margin:10px 50px;
-color:white;
-border-radius:5px;
-border:none;
-}
-.followed{
-background-color:dimgrey;
-padding:0px 5px;
-margin:2px 50px;
-color:white;
-}
-
-.bold{
-    font-weight:bold;
-}
-
-
