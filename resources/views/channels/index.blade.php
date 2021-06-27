@@ -25,29 +25,30 @@
         <div class="border"></div>
 
         @foreach ($channels as $channel)
-        @if (in_array($channel->id, $join_channel_ids))
+            @if (in_array($channel->id, $join_channel_ids))
+                <div class="channel">
+                    <form action="{{ route('leave') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="channel_id" value="{{ $channel->id }}">
+                        <div class="unjoinButton">
+                            {{ '#'. $channel->channel_name }}
+                            <input type="submit" value="退会する" >
+                        </div>
+                    </form>
+                </div>
+            @else
             <div class="channel">
-                <form action="{{ route('leave') }}" method="POST">
+                <form action="{{ route('join') }}" method="POST">
                 @csrf
                 <input type="hidden" name="channel_id" value="{{ $channel->id }}">
-                    <div class="unjoinButton">
+                    <div class="joinButton">
                         {{ '#'. $channel->channel_name }}
-                        <input type="submit" value="退会する" >
+                        <input type="submit" value="参加する" >
                     </div>
                 </form>
             </div>
-        @else
-        <div class="channel">
-            <form action="{{ route('join') }}" method="POST">
-            @csrf
-            <input type="hidden" name="channel_id" value="{{ $channel->id }}">
-                <div class="joinButton">
-                    {{ '#'. $channel->channel_name }}
-                    <input type="submit" value="参加する" >
-                </div>
-            </form>
-        </div>
-        @endif
+            @endif
         @endforeach
     </body>
 </html>
+

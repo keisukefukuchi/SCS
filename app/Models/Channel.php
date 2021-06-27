@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 チャンネル情報管理
+ * Purpose  : C8-1 チャンネル情報管理
  */
 
 class Channel extends Model

@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\Join;
 
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 利用者処理
+ * Purpose  : C2-3 利用者処理
  */
 
 class UsersController extends Controller
@@ -26,12 +27,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $all_users = User::getAllUsers(auth()->user()->id);
+        $users = User::getAllUsers(auth()->user()->id);
         return view('users.index', [
-            'all_users' => $all_users
+            'users' => $users
         ]);
-
-
     }
 
     /**
@@ -43,13 +42,14 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        $timelines = Message::getUserTimeLine($user->id);
+        $join_channels = Join::joinChannelIds(auth()->user()->id);
+        $timelines = Message::getUserTimeLine($user->id, $join_channels);
         $message_count = Message::getMessageCount($user->id);
 
         return view('users.show', [
             'user' => $user,
             'timelines' => $timelines,
-            'tweet_count' => $message_count,
+            'message_count' => $message_count,
         ]);
     }
 

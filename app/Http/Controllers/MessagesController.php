@@ -16,7 +16,7 @@ use App\Models\Join;
 
 class MessagesController extends Controller
 {
-    /**
+     /**
 	 * Function Name	: index
 	 * Designer			: 寺田
 	 * Date				: 2021/06/21
@@ -37,37 +37,35 @@ class MessagesController extends Controller
         $channel_name = $channel->channel_name;
 
         return view('messages.index', [
-            'user'      => $user,
-            'reply_id'  => 0,
-            'timelines' => $timelines,
-            'channels'  => $channels,
-            'channel_id'  => $channel_id,
+            'user'         => $user,
+            'reply_id'     => 0,
+            'timelines'    => $timelines,
+            'channels'     => $channels,
+            'channel_id'   => $channel_id,
             'channel_name' => $channel_name
         ]);
     }
 
     /**
-	 * Function Name	: create
-	 * Designer			: 寺田
-	 * Date				: 2021/06/21
-	 * Function			: 投稿画面を表示する
-	 * Return			: 投稿画面
-	 */
-    public function create(Request $request, Message $message)
+    * Function Name	    : create
+    * Designer			: 寺田
+    * Date				: 2021/06/21
+    * Function			: 投稿画面を表示する
+    * Return			: 投稿画面
+    */
+    public function create($channel_id)
     {
         $user = auth()->user();
-        $reply_id = $request->input('reply_id');
-        $channel_id = $request->input('channel_id');
-        //$channel_id = 1;
         $channel = Channel::where('id', $channel_id)->first();
         $channel_name = $channel->channel_name;
 
         return view('messages.create', [
-            'user' => $user,
-            'reply_id' => $reply_id,
-            'channel_name' => $channel_name,
-            'channel_id' => $channel_id,
-            'param' => 0
+            'user'          => $user,
+            'reply_id'      => 0,
+            'messages'      => null,
+            'channel_name'  => $channel_name,
+            'channel_id'    => $channel_id,
+            'param'         => 0
         ]);
     }
 
@@ -83,11 +81,7 @@ class MessagesController extends Controller
         $user = auth()->user();
         $data = $request->all();
         $validator = Validator::make($data, [
-            'message' => ['required', 'string', 'max:140']
-        ],[
-            'message.required' => 'メッセージの入力が必要です。',
-            'message.string' => '文字列の入力が必要です。',
-            'message.max' => '文字列は最大140文字までです。'            
+            'message' => ['required', 'string', 'max:100']
         ]);
         $validator->validate();
         $message->messageStore($user->id, $data);
@@ -106,13 +100,12 @@ class MessagesController extends Controller
     {
         $user = auth()->user();
         $message = $message->getMessage($message->id);
-        // $reply = $message->getMessage($message->reply_id);
         $reply = $message->getReply($message->id);
 
         return view('messages.show', [
-            'user' => $user,
+            'user'    => $user,
             'message' => $message,
-            'reply' => $reply,
+            'replies' => $reply,
         ]);
     }
 
@@ -123,22 +116,22 @@ class MessagesController extends Controller
 	 * Function			: 編集するための投稿画面を表示する
 	 * Return			: 投稿画面
 	 */
-    
     public function edit(Message $message)
     {
         $user = auth()->user();
         $messages = $message->getEditMessage($user->id, $message->id);
-    
+
         if (!isset($messages)) {
             return redirect('messages');
         }
 
         return view('messages.create', [
-            'user'   => $user,
-            'messages' => $messages,
-            'channel_name' => null,
-            'channel_id' => null,
-            'param' => 1,
+            'user'          => $user,
+            'reply_id'      => null,
+            'messages'      => $messages,
+            'channel_name'  => $messages->channel->channel_name,
+            'channel_id'    => null,
+            'param'         => 1,
         ]);
     }
 
@@ -153,11 +146,7 @@ class MessagesController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data, [
-            'message' => ['required', 'string', 'max:140']
-        ],[
-            'message.required' => 'メッセージの入力が必要です。',
-            'message.string' => '文字列の入力が必要です。',
-            'message.max' => '文字列は最大140文字までです。'            
+            'message' => ['required', 'string', 'max:100']
         ]);
         $validator->validate();
         $message->messageUpdate($message->id, $data);
@@ -171,13 +160,36 @@ class MessagesController extends Controller
 	 * Date				: 2021/06/21
 	 * Function			: メッセージ削除処理を行う
 	 * Return			: メイン画面
-	 */    
+	 */
     public function destroy(Message $message)
     {
         $user = auth()->user();
         $message->messageDestroy($user->id, $message->id);
 
         return redirect('messages');
+    }
+
+    /**
+	 * Function Name	: reply
+	 * Designer			: 寺田
+	 * Date				: 2021/06/21
+	 * Function			: 返信するための投稿画面を表示する
+	 * Return			: 投稿画面
+	 */
+    public function reply($message_id)
+    {
+        $user = auth()->user();
+        $message = Message::find($message_id);
+        $channel_id = $message->channel_id;
+
+        return view('messages.create', [
+            'user'          => $user,
+            'reply_id'      => $message_id,
+            'message'       => $message,
+            'channel_name'  => $message->channel->channel_name,
+            'channel_id'    => $channel_id,
+            'param'         => 2
+        ]);
     }
 
     /**
@@ -192,11 +204,7 @@ class MessagesController extends Controller
         $user = auth()->user();
         $data = $request->all();
         $validator = Validator::make($data, [
-            'message' => ['required', 'string', 'max:140']
-        ],[
-            'message.required' => 'メッセージの入力が必要です。',
-            'message.string' => '文字列の入力が必要です。',
-            'message.max' => '文字列は最大140文字までです。'            
+            'message' => ['required', 'string', 'max:100']
         ]);
         $validator->validate();
         $message = new Message();
@@ -205,28 +213,4 @@ class MessagesController extends Controller
         return redirect('messages');
     }
 
-    /**
-	 * Function Name	: reply
-	 * Designer			: 寺田
-	 * Date				: 2021/06/21
-	 * Function			: 返信するための投稿画面を表示する
-	 * Return			: 投稿画面
-	 */
-    public function reply(Request $request, Message $message)
-    {
-        $user = auth()->user();
-        $reply_id = $request->input('reply_id');
-        $channel_id = $request->input('channel_id');
-        //$channel_id = 1;
-        $channel = Channel::where('id', $channel_id)->first();
-        $channel_name = $channel->channel_name;
-
-        return view('messages.create', [
-            'user' => $user,
-            'reply_id' => $reply_id,
-            'channel_name' => $channel_name,
-            'channel_id' => $channel_id,
-            'param' => 2
-        ]);
-    }
 }

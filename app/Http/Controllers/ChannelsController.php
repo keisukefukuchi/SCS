@@ -10,7 +10,7 @@ use App\Models\Join;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 チャンネル処理
+ * Purpose  : C5-1 チャンネル処理
  */
 
 class ChannelsController extends Controller
@@ -59,16 +59,11 @@ class ChannelsController extends Controller
     {
         // バリデータ
         $validator = Validator::make($request->all(), [
-            'text' => 'required|string|max:20|unique:channels,channel_name',
-        ], [
-            'text.required' => 'チャンネル名を入力してください',
-            'text.string' => 'チャンネル名には文字列を利用してください',
-            'text.max' => 'チャンネル名は20文字以下で作成してください',
-            'text.unique' => 'このチャンネルは既に作成されています'
+            'channel_name' => 'required|string|max:20|unique:channels,channel_name',
         ]);
         $validator->validate();
 
-        Channel::store($request->text);
+        Channel::store($request->channel_name);
 
         $user = auth()->user();
 
