@@ -77,7 +77,6 @@ input[type="file"] {
 }
 
 /*label {
-
     color: white;
     background-color: dimgray;
     border-radius:100vh;
@@ -88,4 +87,8 @@ input[type="file"] {
 */
 p{
     padding-left:20%;
+}
+
+.position{
+    margin-left:20%;
 }
