@@ -10,9 +10,10 @@
         <div class="header">
             <a href = {{ route('messages.index') }}>
                 <div class="header-logo">
-                    〈 back</div>
-                <div class="header-list">
+                    〈 back
+                </div>
             </a>
+            <div class="header-list">
                 <ul>
                     <li>　　    {{ "#".$channel_name }}</li>
                 </ul>
@@ -29,10 +30,9 @@
                 <input type="hidden" name="reply_id" value="{{ 0 }}">
                 <input type="hidden" name="channel_id" value="{{ $channel_id }}">
                 <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8"></textarea>
-
                 @error('message')
                     <span class="invalid-feedback" role="alert">
-                        <strong class = "position">{{ $message }}</strong>
+                        <strong class = "position">{{ $errors->first('message') }}</strong>
                     </span>
                 @enderror
                 <br>
@@ -42,52 +42,58 @@
             </form>
 
         @elseif ($param == 1)
-                <div class="post">
-                    編集
+            <div class="post">
+                編集
+            </div>
+            <div class="border"></div>
+
+            <form method="POST" action="{{ route('messages.update', ['message' => $message->id]) }}">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="channel_id" value="{{ $channel_id }}">
+                <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8">{{ old('message') ? : "$message->message" }}</textarea>
+
+                @error('message')
+                    <span class="invalid-feedback" role="alert">
+                        <strong class = "position">{{ $errors->first('message') }}</strong>
+                    </span>
+                @enderror
+                <br>
+                <div class="button">
+                    <input type="submit" value="Post">
                 </div>
-                <div class="border"></div>
+            </form>
 
-                <form method="POST" action="{{ route('messages.update', ['message' => 1]) }}">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="channel_id" value="{{ $channel_id }}">
-                    <textarea class="textarea @error('message') is-invalid @enderror"  name="message"  rows="8">{{ old('message') ? : "$messages->message" }}</textarea>
+        @elseif ($param == 2)
+            <div class="post">
+                返信
+            </div>
+            <div class="border"></div>
+            <form method="POST" action="{{ url('reply/store') }}">
+                @csrf
 
-                    @error('message')
-                        <span class="invalid-feedback" role="alert">
-                            <strong class = "position">{{ $message }}</strong>
-                        </span>
-                    @enderror
-                    <br>
-                    <div class="button">
-                        <input type="submit" value="Post">
-                    </div>
-                </form>
+                <input type="hidden" name="channel_id" value="{{ $channel_id }}">
+                <input type="hidden" name="reply_id" value="{{ $reply_id }}">
+                <textarea class="textarea @error('message') is-invalid @enderror" name="message"  rows="8">{{ old('message') }}</textarea>
 
-            @else
-                <div class="post">
-                    返信
+                @error('message')
+                    <span class="invalid-feedback" role="alert">
+                        <strong class = "position">{{ $errors->first('message') }}</strong>
+                    </span>
+                @enderror
+                <br>
+                <div class="button">
+                    <input type="submit" value="Post">
                 </div>
-                <div class="border"></div>
-                <form method="POST" action="{{ url('reply/store') }}">
-                    @csrf
 
-                    <input type="hidden" name="channel_id" value=1>
-                    <input type="hidden" name="reply_id" value=1>
-                    <textarea class="textarea @error('message') is-invalid @enderror" name="text"  rows="8">{{ old('message') }}</textarea>
+            </form>
 
-                    @error('message')
-                        <span class="invalid-feedback" role="alert">
-                            <strong class = "position">{{ $message }}</strong>
-                        </span>
-                    @enderror
-                    <br>
-                    <div class="button">
-                        <input type="submit" value="Post">
-                    </div>
+        @else
 
-                </form>
+        <div class="post">
+            不正な遷移です
+        </div>
 
-            @endif
+        @endif
     </body>
 </html>

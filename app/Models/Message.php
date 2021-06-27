@@ -14,6 +14,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Message extends Model
 {
     use SoftDeletes;
+
+    /**
+     * The attributes that are mass assingnable.
+     *
+     * @var array
+     */
+
     protected $fillable = [
        'message'
     ];
@@ -29,17 +36,17 @@ class Message extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     /**
-	 * Function Name	: messages
+	 * Function Name	: channel
 	 * Designer			: 寺田
 	 * Date				: 2021/06/21
-	 * Function			: messageクラスを返す
-	 * Return			: messageクラスへの参照
+	 * Function			: Userクラスを返す
+	 * Return			: Userクラスへの参照
 	 */
-    public function messages()
+    public function channel()
     {
-        return $this->hasMany(message::class);
+        return $this->belongsTo(Channel::class);
     }
 
     /**
@@ -49,9 +56,9 @@ class Message extends Model
 	 * Function			: 指定ユーザーIDのメッセージを取得する
 	 * Return			: メッセージ
 	 */
-    public function getUserTimeLine(Int $user_id)
+    public static function getUserTimeLine(Int $user_id, Array $join_channel_ids)
     {
-        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(50);
+        return self::where('user_id', $user_id)->whereIn('channel_id', $join_channel_ids)->orderBy('created_at', 'DESC')->get();
     }
 
     /**
@@ -61,14 +68,14 @@ class Message extends Model
 	 * Function			: 指定ユーザーIDに合致する投稿件数を取得する。
 	 * Return			: Collection
 	 */
-    public function getMessageCount(Int $user_id)
+    public static function getMessageCount(Int $user_id)
     {
-        return $this->where('user_id', $user_id)->count();
+        return self::where('user_id', $user_id)->count();
     }
 
     /**
      * Function Name	: getReplyCount
-     * Designer			: 寺田 
+     * Designer			: 寺田
      * Date				: 2021/06/21
      * Function			: 指定ユーザーIDとメッセージIDに合致する返信件数を取得する。
      * Return			: Collection
@@ -92,19 +99,19 @@ class Message extends Model
 
     /**
 	 * Function Name	: getTimeLines
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: 指定チャンネルIDのメッセージリストを取得する
 	 * Return			: メッセージリスト
 	 */
     public function getTimeLines(Int $channel_id)
     {
-        return $this->where('channel_id', $channel_id)->where('reply_id', 0)->orderBy('created_at', 'DESC')->paginate(50);
+        return $this->where('channel_id', $channel_id)->where('reply_id', 0)->orderBy('created_at', 'DESC')->get();
     }
 
     /**
 	 * Function Name	: getMessage
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: 指定メッセージIDのMessageテーブルを取得する。
 	 * Return			: Messageテーブル
@@ -116,10 +123,10 @@ class Message extends Model
 
     /**
 	 * Function Name	: messageStore
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: 指定ユーザーIDのMessageテーブルをDBに保存する。
-	 * Return			: 
+	 * Return			:
 	 */
     public function messageStore(Int $user_id, Array $data)
     {
@@ -134,7 +141,7 @@ class Message extends Model
 
     /**
 	 * Function Name	: getEditMessage
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: 指定ユーザID、メッセージーIDに合致するMessageテーブルを取得する。
 	 * Return			: Messageテーブル
@@ -146,10 +153,10 @@ class Message extends Model
 
     /**
 	 * Function Name	: messageUpdate
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: メッセージを更新する。
-	 * Return			: 
+	 * Return			:
 	 */
     public function messageUpdate(Int $message_id, Array $data)
     {
@@ -162,7 +169,7 @@ class Message extends Model
 
     /**
 	 * Function Name	: messageDestroy
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: メッセージを削除する。
 	 * Return			: 削除結果
@@ -174,13 +181,13 @@ class Message extends Model
 
     /**
 	 * Function Name	: messagesSearch
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: メッセージを検索する。
 	 * Return			: 検索結果
 	 */
-    public static function messagesSearch(string $keyword)
+    public static function messagesSearch(string $keyword, Array $join_channel_ids)
     {
-        return self::where('message', 'like', '%'.$keyword.'%')->orderBy('created_at', 'DESC')->paginate(50);
+        return self::whereIn('channel_id', $join_channel_ids)->where('message', 'like', '%'.$keyword.'%')->orderBy('created_at', 'DESC')->get();
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\Join;
 
 /**
  * Designer : 畑
@@ -26,12 +27,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $all_users = User::getAllUsers(auth()->user()->id);
+        $users = User::getAllUsers(auth()->user()->id);
         return view('users.index', [
-            'all_users' => $all_users
+            'users' => $users
         ]);
-
-
     }
 
     /**
@@ -43,33 +42,15 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        $timelines = Message::getUserTimeLine($user->id);
+        $join_channels = Join::joinChannelIds(auth()->user()->id);
+        $timelines = Message::getUserTimeLine($user->id, $join_channels);
         $message_count = Message::getMessageCount($user->id);
 
         return view('users.show', [
             'user' => $user,
             'timelines' => $timelines,
-            'tweet_count' => $message_count,
+            'message_count' => $message_count,
         ]);
     }
-
-    // 以下プロフィール編集用コード（実装予定なし）
-
-    // public function edit(User $user)
-    // {
-    //     return view('users.edit', ['user' => $user]);
-    // }
-
-    // public function update(Request $request, User $user)
-    // {
-    //     $data = $request->all();
-    //     $validator = Validator::make($data, [
-    //         'name' => ['required', 'string', 'max:255'],
-    //     ]);
-    //     $validator->validate();
-    //     $user->updateProfile($data);
-
-    //     return redirect('users/'.$user->id);
-    // }
 
 }
