@@ -29,7 +29,7 @@ class Message extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     /**
 	 * Function Name	: messages
 	 * Designer			: 寺田
@@ -68,7 +68,7 @@ class Message extends Model
 
     /**
      * Function Name	: getReplyCount
-     * Designer			: 寺田 
+     * Designer			: 寺田
      * Date				: 2021/06/21
      * Function			: 指定ユーザーIDとメッセージIDに合致する返信件数を取得する。
      * Return			: Collection
@@ -92,7 +92,7 @@ class Message extends Model
 
     /**
 	 * Function Name	: getTimeLines
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: 指定チャンネルIDのメッセージリストを取得する
 	 * Return			: メッセージリスト
@@ -104,7 +104,7 @@ class Message extends Model
 
     /**
 	 * Function Name	: getMessage
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: 指定メッセージIDのMessageテーブルを取得する。
 	 * Return			: Messageテーブル
@@ -116,10 +116,10 @@ class Message extends Model
 
     /**
 	 * Function Name	: messageStore
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: 指定ユーザーIDのMessageテーブルをDBに保存する。
-	 * Return			: 
+	 * Return			:
 	 */
     public function messageStore(Int $user_id, Array $data)
     {
@@ -134,7 +134,7 @@ class Message extends Model
 
     /**
 	 * Function Name	: getEditMessage
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: 指定ユーザID、メッセージーIDに合致するMessageテーブルを取得する。
 	 * Return			: Messageテーブル
@@ -146,10 +146,10 @@ class Message extends Model
 
     /**
 	 * Function Name	: messageUpdate
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: メッセージを更新する。
-	 * Return			: 
+	 * Return			:
 	 */
     public function messageUpdate(Int $message_id, Array $data)
     {
@@ -162,7 +162,7 @@ class Message extends Model
 
     /**
 	 * Function Name	: messageDestroy
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: メッセージを削除する。
 	 * Return			: 削除結果
@@ -174,7 +174,7 @@ class Message extends Model
 
     /**
 	 * Function Name	: messagesSearch
-	 * Designer			: 寺田 
+	 * Designer			: 寺田
 	 * Date				: 2021/06/21
 	 * Function			: メッセージを検索する。
 	 * Return			: 検索結果

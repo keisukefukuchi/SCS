@@ -53,23 +53,4 @@ class UsersController extends Controller
         ]);
     }
 
-    // 以下プロフィール編集用コード（実装予定なし）
-
-    // public function edit(User $user)
-    // {
-    //     return view('users.edit', ['user' => $user]);
-    // }
-
-    // public function update(Request $request, User $user)
-    // {
-    //     $data = $request->all();
-    //     $validator = Validator::make($data, [
-    //         'name' => ['required', 'string', 'max:255'],
-    //     ]);
-    //     $validator->validate();
-    //     $user->updateProfile($data);
-
-    //     return redirect('users/'.$user->id);
-    // }
-
 }
