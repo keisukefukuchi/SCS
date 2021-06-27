@@ -81,7 +81,7 @@ class MessagesController extends Controller
         $user = auth()->user();
         $data = $request->all();
         $validator = Validator::make($data, [
-            'message' => ['required', 'string', 'max:140']
+            'message' => ['required', 'string', 'max:100']
         ]);
         $validator->validate();
         $message->messageStore($user->id, $data);
@@ -146,7 +146,7 @@ class MessagesController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data, [
-            'message' => ['required', 'string', 'max:140']
+            'message' => ['required', 'string', 'max:100']
         ]);
         $validator->validate();
         $message->messageUpdate($message->id, $data);
@@ -204,7 +204,7 @@ class MessagesController extends Controller
         $user = auth()->user();
         $data = $request->all();
         $validator = Validator::make($data, [
-            'message' => ['required', 'string', 'max:140']
+            'message' => ['required', 'string', 'max:100']
         ]);
         $validator->validate();
         $message = new Message();
