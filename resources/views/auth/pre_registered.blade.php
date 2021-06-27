@@ -8,6 +8,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
 </head>
+<style>
+    .registered_box_text {
+        text-align: center;
+    }
+</style>
 <body>
     <p class="login_logo">Shibaura Chat System</p>
     <div class="registered_box">
