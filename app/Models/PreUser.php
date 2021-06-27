@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 /**
  * Designer : 畑
  * Date     : 2021/06/14
- * Purpose  : C?-1 仮登録者情報管理
+ * Purpose  : C6-2 仮登録者情報管理
  */
 
 class PreUser extends Model
