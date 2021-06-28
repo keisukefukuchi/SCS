@@ -10,15 +10,15 @@
     <form method="POST" action="{{ url('/pre_register') }}" class="form">
         @csrf
         <p class="lead-text">学籍番号を入力してください</p>
-        <div class="form_wrap">
+        <div class="register_form_wrap">
             <label for="student_number" class="form_label">学籍番号</label>
-            <input id="student_number" type="text" class="form-control @error('student_number') is-invalid @enderror form_input" name="student_number" value="{{ old('student_number') }}" placeholder="aa00000" autocomplete="student_number">
-        </div>
+            <input id="student_number" type="text" class="form-control @error('student_number') is-invalid @enderror form_input" name="student_number" value="{{ old('student_number') }}" placeholder="zz00000" autocomplete="student_number" autofocus>
             @error('student_number')
-                <p class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </p>
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('student_number') }}</strong>
+            </span>
             @enderror
+        </div>
         <button type="submit" class="button">Register</button>
     </form>
 @endsection
