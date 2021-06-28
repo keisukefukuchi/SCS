@@ -71,13 +71,8 @@
     margin-bottom: 30px;
 }
 
-.box{
-    text-align:center;
-}
-
-.text{
-    text-align:left;
-    display:inline-block;
+.registered_box_text {
+    text-align: center;
 }
 
 .block-label {
