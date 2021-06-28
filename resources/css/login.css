@@ -71,10 +71,6 @@
     margin-bottom: 30px;
 }
 
-.registered_box_text {
-    text-align: center;
-}
-
 .block-label {
     display: block;
     text-align: center;
@@ -95,3 +91,7 @@
     margin-right: 10px;
 }
 
+.registered_box_text {
+    display: table;
+    margin: 0 auto;
+}
