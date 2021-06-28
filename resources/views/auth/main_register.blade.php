@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
-        <link href="{{ asset('css/login.css') }}" rel="stylesheet">
-    </head>
-    <body>
+@extends('layouts.app')
+
+@section('add_script')
+<script src="{{ asset('js/logo.js') }}" defer></script>
+@endsection
+
+@section('add_css')
+<link rel ="stylesheet" href="{{asset('/css/login.css')}}">
+@endsection
+
+@section('content')
         <p class="login_logo">Shibaura Chat System</p>
         <form method="POST" action="{{ route('main_register') }}" class="form">
             @csrf
@@ -36,5 +38,4 @@
             <input type="hidden" name="token" value="{{ $token }}">
             <button type="submit" class="button">Sign up</button>
         </form>
-    </body>
-</html>
+@endsection

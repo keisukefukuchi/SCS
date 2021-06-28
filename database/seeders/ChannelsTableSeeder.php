@@ -16,8 +16,6 @@ class ChannelsTableSeeder extends Seeder
     {
         Channel::create([
             'channel_name' => 'main',
-            'created_at'     => now(),
-            'updated_at'     => now()
         ]);
     }
 }

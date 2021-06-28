@@ -15,13 +15,7 @@
                 </div>
                 <br>
                 @foreach ($users as $user)
-                    <div class="card">
-                        <div class="card-haeder p-3 w-100 d-flex">
-                            <div class="ml-2 d-flex flex-column">
-                                <a href="{{ url('users/' .$user->id) }}" class="mb-0">{{ $user->name }}</a>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="{{ url('users/' .$user->id) }}" class="list-group-item list-group-item-action my-1">{{ $user->name }}</a>
                 @endforeach
             </div>
         </div>

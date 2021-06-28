@@ -80,9 +80,9 @@ class Message extends Model
      * Function			: 指定ユーザーIDとメッセージIDに合致する返信件数を取得する。
      * Return			: Collection
      */
-    public function getReplyCount(Int $user_id, Int $message_id)
+    public function getReplyCount(Int $message_id)
     {
-        return $this->where('user_id', $user_id)->where('reply_id', $message_id)->count();
+        return $this->where('reply_id', $message_id)->count();
     }
 
     /**
