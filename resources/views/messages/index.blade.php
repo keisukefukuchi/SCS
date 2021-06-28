@@ -17,6 +17,9 @@
     .left {
         height: 700px;
     }
+    .length {
+        padding-top: 30px;
+    }
 </style>
 @section('content')
     <div class="row-m0 left">
@@ -78,7 +81,7 @@
             </div>
         @endif
     </div>
-    <div class="wrapper styl">
+    <div class="wrapper styl length">
         <div class="a">
             <form method="POST" action="{{ url('messages/create/'.$channel_id) }}" class="list-group-item list-group-item-action">
                 @csrf
