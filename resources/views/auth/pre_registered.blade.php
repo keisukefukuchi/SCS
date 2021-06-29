@@ -1,19 +1,11 @@
 {{-- 仮登録完了画面 --}}
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'Laravel') }}</title>
-    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
-</head>
-<style>
-    .registered_box_text {
-        text-align: center;
-    }
-</style>
-<body>
+@extends('layouts.app')
+
+@section('add_css')
+    <link rel ="stylesheet" href="{{asset('/css/login.css')}}">
+@endsection
+
+@section('content')
     <p class="login_logo">Shibaura Chat System</p>
     <div class="registered_box">
         <p class="lead-text">仮会員登録完了！</p>
@@ -32,4 +24,4 @@
         </div>
     </div>
 
-</body>
+@endsection

@@ -18,7 +18,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('channel_id')->comment('チャンネルID');
             $table->unsignedBigInteger('user_id')->comment('利用者ID');
             $table->unsignedBigInteger('reply_id')->comment('返信先ID');
-            $table->string('message')->comment('メッセージ内容');
+            $table->string('message', 100)->comment('メッセージ内容');
             $table->softDeletes();
             $table->timestamps();
 

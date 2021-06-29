@@ -46,19 +46,6 @@ class Channel extends Model
     }
 
     /**
-     * Function Name : getNotJoinedChannels
-     * Designer      : 畑
-     * Date          : 2021/06/14
-     * Function      : 未参加のチャンネルデータを取得する
-     * Return        : Collection
-     */
-    public static function getNotJoinedChannels(Array $channel_ids)
-    {
-        $not_joined_channels = self::whereNotIn('id', $channel_ids)->orderBy('created_at')->get();
-        return $not_joined_channels;
-    }
-
-    /**
      * Function Name : getChannels
      * Designer      : 畑
      * Date          : 2021/06/14
@@ -67,7 +54,7 @@ class Channel extends Model
      */
     public static function getChannels()
     {
-        $channels = self::where('id' , '!=', 1)->get();
+        $channels = self::where('id' , '!=', 1)->simplePaginate(50);
         return $channels;
     }
 

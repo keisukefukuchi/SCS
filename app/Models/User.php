@@ -36,26 +36,9 @@ class User extends Authenticatable
      */
     public static function getAllUsers(Int $user_id)
     {
-        $all_users = self::where('id', '<>', $user_id)->get();
+        $all_users = self::where('id', '<>', $user_id)->simplePaginate(50);
         return $all_users;
     }
-
-    // 未使用
-    /**
-     * Function Name : updateProfile
-     * Designer      : 畑
-     * Date          : 2021/06/14
-     * Function      : 利用者データを更新する
-     * Return        :
-     */
-    // public function updateProfile(Array $params)
-    // {
-    //     $this->where('id', $this->id)
-    //             ->update([
-    //                 'name' => $params['name'],
-    //             ]);
-    //     return;
-    // }
 
     /**
      * Function Name : store
