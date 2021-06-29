@@ -75,3 +75,7 @@ a {
     margin-right: 20px;
     flex: 0 0 55%;
 }
+
+.page {
+    text-align: center;
+}

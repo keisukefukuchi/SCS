@@ -17,6 +17,10 @@
                 @foreach ($users as $user)
                     <a href="{{ url('users/' .$user->id) }}" class="list-group-item list-group-item-action my-1">{{ $user->name }}</a>
                 @endforeach
+                <p></p>
+                <div class="page">
+                {{ $users->links() }}
+                </div>
             </div>
         </div>
     </div>

@@ -66,6 +66,10 @@
                         </div>
                     </div>
                 @endforeach
+                <p></p>
+                <div class="page">
+                {{ $timelines->links() }}
+                </div>
             </div>
         @endif
         <div class="wrapper">

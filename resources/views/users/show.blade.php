@@ -58,6 +58,10 @@
                     </div>
                 </div>
             @endforeach
+            <p></p>
+            <div class="page">
+            {{ $timelines->links() }}
+            </div>
         @endif
     </div>
 @endsection

@@ -58,7 +58,7 @@ class Message extends Model
 	 */
     public static function getUserTimeLine(Int $user_id, Array $join_channel_ids)
     {
-        return self::where('user_id', $user_id)->whereIn('channel_id', $join_channel_ids)->orderBy('created_at', 'DESC')->get();
+        return self::where('user_id', $user_id)->whereIn('channel_id', $join_channel_ids)->orderBy('created_at', 'DESC')->simplePaginate(50);
     }
 
     /**
@@ -94,7 +94,7 @@ class Message extends Model
 	 */
     public function getReply(Int $message_id)
     {
-        return $this->where('reply_id', $message_id)->get();
+        return $this->where('reply_id', $message_id)->simplePaginate(50);
     }
 
     /**
@@ -106,7 +106,7 @@ class Message extends Model
 	 */
     public function getTimeLines(Int $channel_id)
     {
-        return $this->where('channel_id', $channel_id)->where('reply_id', 0)->orderBy('created_at', 'DESC')->get();
+        return $this->where('channel_id', $channel_id)->where('reply_id', 0)->orderBy('created_at', 'DESC')->simplePaginate(50);
     }
 
     /**

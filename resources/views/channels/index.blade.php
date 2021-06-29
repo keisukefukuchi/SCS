@@ -37,6 +37,10 @@
         </div>
         @endif
     @endforeach
+    <p></p>
+    <div class="page">
+    {{ $channels->links() }}
+    </div>
 
     <p></p>
 

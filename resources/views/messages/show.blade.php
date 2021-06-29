@@ -91,6 +91,10 @@
                         <p class="mb-0 text-secondary">返信はまだありません。</p>
                     </li>
                 @endforelse
+                <p></p>
+                <div class="page">
+                {{ $replies->links() }}
+                </div>
 
             </ul>
         </div>
