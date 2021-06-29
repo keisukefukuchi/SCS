@@ -19,7 +19,7 @@
                 @csrf
                 <input type="hidden" name="channel_id" value="{{ $channel->id }}">
                     <div class="unjoinButton">
-                        {{ '#'. $channel->channel_name }}
+                        {{ $channel->channel_name. " チャンネル" }}
                         <input type="submit" value="退会する" >
                     </div>
                 </form>

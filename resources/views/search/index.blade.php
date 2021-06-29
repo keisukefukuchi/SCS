@@ -44,7 +44,7 @@
                     </div>
                     <div class="card-footer py-1 d-flex justify-content-end bg-white">
                         <div class="ml-2 d-flex flex-column flex-grow-1">
-                            <p class="mb-0">{{ "#".$timeline->channel->channel_name }}</p>
+                            <p class="mb-0">{{ $timeline->channel->channel_name." チャンネル" }}</p>
                         </div>
                         <div class="mr-3 d-flex align-items-center">
                             <a href="{{ url('messages/' . $timeline->id) }}">詳細</a>
