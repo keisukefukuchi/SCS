@@ -28,7 +28,7 @@
                 @foreach ($channels as $channel)
                         @csrf
                         @method('GET')
-                        <button  type="submit" name="channel_id" value="{{ $channel->id }}" class="list-group-item list-group-item-action">{{ "# " . $channel->channel_name }}</button>
+                        <button  type="submit" name="channel_id" value="{{ $channel->id }}" class="list-group-item list-group-item-action">{{ $channel->channel_name." チャンネル" }}</button>
                 @endforeach
                 <p></p>
             </form>
@@ -41,7 +41,7 @@
         @if (isset($timelines))
             <div class="vertical-scroll-table">
                 <div class="list-group-item">
-                    {{ "# ".$channel_name }}
+                    {{ $channel_name." チャンネル" }}
                 </div>
                 @foreach ($timelines as $key => $timeline)
                     <div class="card timeline">
