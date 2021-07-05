@@ -77,7 +77,7 @@ class Message extends Model
      * Function Name	: getReplyCount
      * Designer			: 寺田
      * Date				: 2021/06/21
-     * Function			: 指定ユーザーIDとメッセージIDに合致する返信件数を取得する。
+     * Function			: 指定メッセージIDに合致する返信件数を取得する。
      * Return			: Collection
      */
     public function getReplyCount(Int $message_id)
