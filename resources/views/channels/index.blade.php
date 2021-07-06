@@ -30,7 +30,7 @@
             @csrf
             <input type="hidden" name="channel_id" value="{{ $channel->id }}">
                 <div class="joinButton">
-                    {{ '#'. $channel->channel_name }}
+                    {{ $channel->channel_name. " チャンネル" }}
                     <input type="submit" value="参加する" >
                 </div>
             </form>
