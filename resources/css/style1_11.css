@@ -43,7 +43,7 @@ list-style:none;
     clear:both;
     margin:20px;
     border:2px solid lightslategray;
-    width:400px;
+    width:600px;
     height:100px;
     margin-left: auto;
     margin-right: auto;
@@ -54,9 +54,10 @@ list-style:none;
 }
 
 .username{
+    width:400px;
     float:left;
     margin:30px;
-    margin-left:60px;
+    text-align:center;
 
 }
 .name{
