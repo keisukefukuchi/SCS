@@ -30,19 +30,6 @@ class LoginController extends Controller
          return 'student_number';
     }
 
-    protected function validateLogin(Request $request)
-    {
-        $request->validate([
-            'student_number' => 'required|string',
-            'password' => 'required|string',
-        ], [
-            'student_number.required' => '学籍番号を入力してください',
-            'student_number.string' => '学籍番号には文字列を使用してください',
-            'password.required' => 'パスワードを入力してください',
-            'password.string' => 'パスワードには文字列を使用してください'
-        ]);
-    }
-
     protected $redirectTo = RouteServiceProvider::HOME;
 
     public function __construct()

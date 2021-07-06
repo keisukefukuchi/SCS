@@ -44,7 +44,7 @@ class RegisterController extends Controller
     public function studentNumberVerification(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'student_number' => 'required|string|unique:users,student_number|regex:/[a-z][a-z][0-9][0-9][0-9][0-9][0-9]/'
+            'student_number' => 'required|string|unique:users,student_number|regex:/[a-z][a-z][0-9][0-9][0-9][0-9][0-9]/|max:7'
         ]);
         if ($validator->fails()) {
             return view('auth.register')->with([
